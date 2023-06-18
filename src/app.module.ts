@@ -3,6 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { UsersController } from './users.controller';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 
+const configService = new ConfigService();
+
 @Module({
   imports: [],
   controllers: [UsersController],
@@ -14,8 +16,8 @@ import { ClientProxyFactory, Transport } from '@nestjs/microservices';
         return ClientProxyFactory.create({
           transport: Transport.TCP,
           options: {
-            host: 'localhost',
-            port: 8080
+            host: configService.get('USER_HOST'),
+            port: configService.get('USER_PORT')
           }
         })
       },
